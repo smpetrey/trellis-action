@@ -1,0 +1,31 @@
+name: CI Build & Deploy to Staging
+
+on:
+  push:
+    branches: [ staging ] # pushed commits to staging
+  pull_request:
+    branches: [ staging ] # or when a PR is opened
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Node Version
+        run: |
+          node -v
+      - uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-auth-sock: ${{ github.workspace }}/ssh-auth.sock
+
+      - uses: steenbergen-design/trellis-action@v1.0.0
+        with: 
+          vault_password: ${{ secrets.VAULT_PASS }}
+          site_env: staging
+          site_name: staging.example.com

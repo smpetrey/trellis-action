@@ -1,0 +1,29 @@
+name: CI Build & Deploy to Production
+
+on:
+  push:
+    branches: [ main ] # pushed commits to main
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Node Version
+        run: |
+          node -v
+      - uses: webfactory/ssh-agent@v0.4.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-auth-sock: ${{ github.workspace }}/ssh-auth.sock
+
+      - uses: steenbergen-design/trellis-action@v1.0.0
+        with: 
+          vault_password: ${{ secrets.VAULT_PASS }}
+          site_env: production
+          site_name: example.com
