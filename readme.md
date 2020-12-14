@@ -16,9 +16,9 @@ Check [`action.yml`](./action.yml) inputs for all `with` args available. You can
 
 [Trellis Deploy](https://github.com/steenbergen-design/trellis-action) comes with 2 different `main.yml` examples. They are expecting different Trellis and Bedrock structures.
 
-### Official
+### Example Workflows
 
-Use [`main.yml`](./main.yml) if your directory structure follow [the official documents](https://roots.io/trellis/docs/installing-trellis/#create-a-project):
+In the `examples` directory, there are a few example workflows. One is a recommended `.yml` for deploying to a staging site. Ideal for opening PRs and testing changes in a staging environemnt before merging with `main`. The other is a simple and practical `main.yml`, for production deploys. Use the [`main.yml`](./examples/main.yml) if your directory structure follows [the official documentation](https://roots.io/trellis/docs/installing-trellis/#create-a-project):
 ```
 example.com/      # → Root folder for the project
 ├── .git/         # → Only one git repo
@@ -26,10 +26,12 @@ example.com/      # → Root folder for the project
 └── site/         # → A Bedrock-based WordPress site, directory name doesn't matter
 ```
 
+### Installation
+
 To install `main.yml`:
 1. Set up SSH keys, Ansible Vault password and commit Trellis changes described in the following sections
-1. In your repository, go to the *Settings > Secrets* menu and create a new secret called `vault_pass`. Put the vault pass into the contents field.
-1. In your workflow definition file, add `steenbergen-design/trellis-action@v1`. See next example:
+2. In your repository, go to the *Settings > Secrets* menu and create a new secret called `vault_pass`. Put the vault pass into the contents field.
+3. In your workflow definition file, add `steenbergen-design/trellis-action@v1.0.0`. You can see an example as seen [here](./examples/main.yml) and here:
 
 ```yaml
 # .github/workflows/main.yml
@@ -51,9 +53,9 @@ jobs:
           site_name: example.com
 ```
 
-### Seperated repo's
+### Opinionated Seperated repo's
 
-Some use a opinionated project structure:
+Some use the unsupported opinionated project structure:
 - separate Trellis and Bedrock as 2 different git repo
 - name the Bedrock-based WordPress site directory more creatively, i.e: `bedrock`
 
